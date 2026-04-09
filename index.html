@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Lanautica App</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+    }
+
+    .container {
+      background: #1e293b;
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      width: 400px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    /* LOGO */
+    .logo {
+      width: 80px;
+      display: block;
+      margin: 0 auto 15px auto;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(56,189,248,0.4);
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      color: #38bdf8;
+    }
+
+    .btn {
+      display: block;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn-date {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+
+    .btn-date:hover {
+      background: #0ea5e9;
+    }
+
+    .btn-pic {
+      background: #22c55e;
+      color: white;
+    }
+
+    .btn-pic:hover {
+      background: #16a34a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- LOGO -->
+    <img src="logo.png" alt="Logo" class="logo">
+
+    <h1>Lanautica App</h1>
+
+    <a href="ConvertDate.html" class="btn btn-date">
+      ⏱ Convert Time Format
+    </a>
+
+    <a href="ConvertPicture.html" class="btn btn-pic">
+      🖼 Generate Unix Filename
+    </a>
+
+  </div>
+
+</body>
+</html>
