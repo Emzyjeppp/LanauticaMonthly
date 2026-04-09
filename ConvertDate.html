@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Bulk Time Converter</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #e2e8f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #1e293b;
+      padding: 25px;
+      border-radius: 16px;
+      width: 520px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #38bdf8;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      resize: none;
+      background: #0f172a;
+      color: #e2e8f0;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin-right: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    button:first-of-type {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+
+    button:first-of-type:hover {
+      background: #0ea5e9;
+    }
+
+    button:nth-of-type(2) {
+      background: #22c55e;
+      color: white;
+    }
+
+    button:nth-of-type(2):hover {
+      background: #16a34a;
+    }
+
+    button:nth-of-type(3) {
+      background: #ef4444;
+      color: white;
+    }
+
+    button:nth-of-type(3):hover {
+      background: #dc2626;
+    }
+
+    h3 {
+      margin: 10px 0;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Bulk Time Converter</h2>
+
+    <textarea id="inputData" rows="8" placeholder="Contoh:
+7.15 PM · 14 Mar 2026
+11.06 AM · 13 Mar 2026"></textarea>
+
+    <button onclick="convertBulk()">Convert</button>
+    <button onclick="copyResult()">Copy</button>
+    <button onclick="clearAll()">Clear</button>
+
+    <h3>Hasil:</h3>
+    <textarea id="outputData" rows="8" readonly></textarea>
+  </div>
+
+  <script>
+    function formatCustom(date) {
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const year = date.getFullYear();
+
+      const hours = date.getHours();
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+
+      return `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
+    }
+
+    function convertLine(input) {
+      try {
+        const parts = input.split("·");
+        if (parts.length !== 2) return "Format salah: " + input;
+
+        const timePart = parts[0].trim();
+        const datePart = parts[1].trim();
+
+        let [time, modifier] = timePart.split(" ");
+        let [hours, minutes] = time.split(".");
+
+        hours = parseInt(hours);
+        minutes = parseInt(minutes);
+
+        if (modifier === "PM" && hours !== 12) hours += 12;
+        if (modifier === "AM" && hours === 12) hours = 0;
+
+        const date = new Date(`${datePart} ${hours}:${minutes}:00 GMT+0700`);
+
+        return formatCustom(date);
+
+      } catch {
+        return "Error: " + input;
+      }
+    }
+
+    function convertBulk() {
+      const input = document.getElementById("inputData").value;
+      const lines = input.split("\n");
+
+      const results = lines.map(line => convertLine(line.trim())).join("\n");
+
+      document.getElementById("outputData").value = results;
+    }
+
+    function copyResult() {
+      const output = document.getElementById("outputData");
+      output.select();
+      document.execCommand("copy");
+      alert("Hasil disalin!");
+    }
+
+    function clearAll() {
+      document.getElementById("inputData").value = "";
+      document.getElementById("outputData").value = "";
+    }
+  </script>
+
+</body>
+</html>

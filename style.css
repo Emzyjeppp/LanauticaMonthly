@@ -1,0 +1,84 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Background */
+body {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #e2e8f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Container */
+.container {
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 16px;
+  width: 500px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* Title */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #38bdf8;
+}
+
+/* Textarea */
+textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: #0f172a;
+  color: #e2e8f0;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* Buttons */
+button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+/* Convert button */
+button:first-of-type {
+  background: #38bdf8;
+  color: #0f172a;
+}
+
+button:first-of-type:hover {
+  background: #0ea5e9;
+}
+
+/* Copy button */
+button:last-of-type {
+  background: #22c55e;
+  color: white;
+}
+
+button:last-of-type:hover {
+  background: #16a34a;
+}
+
+/* Output label */
+h3 {
+  margin: 10px 0;
+  color: #94a3b8;
+}
