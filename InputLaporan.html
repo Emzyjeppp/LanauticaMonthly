@@ -2,85 +2,201 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Input Laporan</title>
+<title>Input Laporan Bulanan</title>
 
 <style>
-body { background:#0f172a; color:white; font-family:sans-serif; padding:20px;}
-input { display:block; margin:5px 0; padding:8px; border-radius:8px; border:none; width:200px;}
-button { padding:10px; border-radius:10px; border:none; background:#38bdf8;}
-</style>
+body {
+  background: linear-gradient(135deg, #0f172a, #020617);
+  font-family: 'Segoe UI', sans-serif;
+  background: #0f172a;
+  color: white;
+  padding: 20px;
+}
 
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  color: #38bdf8;
+}
+
+.section {
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 18px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+h2 {
+  color: #f59e0b;
+}
+
+input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #0f172a;
+  color: white;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+input::placeholder {
+  color: #64748b;
+}
+
+input:hover {
+  border-color: rgba(255,255,255,0.2);
+}
+
+input:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56,189,248,0.3);
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  color: #e2e8f0;
+  font-size: 15px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #22c55e;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+</style>
 </head>
+
 <body>
 
-<h2>📥 Input Data</h2>
+<div class="container">
 
-<h3>X (Twitter)</h3>
-<input id="x_following" placeholder="Following">
-<input id="x_followers" placeholder="Followers">
-<input id="x_posts" placeholder="Posts">
+<h1>📥 Input Laporan Bulanan</h1>
 
-<h3>Instagram</h3>
-<input id="ig_following">
-<input id="ig_followers">
-<input id="ig_posts">
-<input id="ig_stories">
+<!-- LIVE STREAM -->
+<div class="section">
+  <h2>🎥 Live Stream Counts</h2>
 
-<h3>TikTok</h3>
-<input id="tt_following">
-<input id="tt_followers">
-<input id="tt_posts">
-<input id="tt_stories">
+  <h3>Showroom</h3>
+  <input id="sr_following" placeholder="Following">
+  <input id="sr_followers" placeholder="Followers">
+  <input id="sr_streams" placeholder="Streams">
+  <input id="sr_views" placeholder="Views">
+  <input id="sr_comments" placeholder="Comments">
 
-<h3>Threads</h3>
-<input id="th_following">
-<input id="th_followers">
-<input id="th_posts">
+  <h3>IDN</h3>
+  <input id="idn_following" placeholder="Following">
+  <input id="idn_followers" placeholder="Followers">
+  <input id="idn_streams" placeholder="Streams">
+  <input id="idn_views" placeholder="Views">
+  <input id="idn_comments" placeholder="Comments">
+</div>
 
-<h3>Fanbase</h3>
-<input id="pm_texts">
-<input id="pm_audios">
-<input id="pm_images">
+<!-- SOCIAL MEDIA -->
+<div class="section">
+  <h2>📱 Social Media Counts</h2>
 
-<br>
-<button onclick="save()">💾 Simpan & Lihat</button>
+  <h3>X (Twitter)</h3>
+  <input id="x_following" placeholder="Following">
+  <input id="x_followers" placeholder="Followers">
+  <input id="x_posts" placeholder="Posts">
+
+  <h3>Threads</h3>
+  <input id="th_following" placeholder="Following">
+  <input id="th_followers" placeholder="Followers">
+  <input id="th_posts" placeholder="Posts">
+
+  <h3>Instagram</h3>
+  <input id="ig_following" placeholder="Following">
+  <input id="ig_followers" placeholder="Followers">
+  <input id="ig_posts" placeholder="Posts">
+  <input id="ig_stories" placeholder="Stories">
+
+  <h3>TikTok</h3>
+  <input id="tt_following" placeholder="Following">
+  <input id="tt_followers" placeholder="Followers">
+  <input id="tt_posts" placeholder="Posts">
+  <input id="tt_stories" placeholder="Stories">
+</div>
+
+<!-- PM -->
+<div class="section">
+  <h2>💬 PM (Fanbase)</h2>
+  <input id="pm_texts" placeholder="Texts">
+  <input id="pm_audios" placeholder="Audios">
+  <input id="pm_images" placeholder="Images">
+</div>
+
+<button onclick="save()">💾 Simpan</button>
+
+</div>
 
 <script>
-function save(){
+function save() {
   const data = {
+    showroom: {
+      following: sr_following.value,
+      followers: sr_followers.value,
+      streams: sr_streams.value,
+      views: sr_views.value,
+      comments: sr_comments.value
+    },
+    idn: {
+      following: idn_following.value,
+      followers: idn_followers.value,
+      streams: idn_streams.value,
+      views: idn_views.value,
+      comments: idn_comments.value
+    },
     x: {
-      following: +x_following.value,
-      followers: +x_followers.value,
-      posts: +x_posts.value
+      following: x_following.value,
+      followers: x_followers.value,
+      posts: x_posts.value
     },
-    ig: {
-      following: +ig_following.value,
-      followers: +ig_followers.value,
-      posts: +ig_posts.value,
-      stories: +ig_stories.value
+    threads: {
+      following: th_following.value,
+      followers: th_followers.value,
+      posts: th_posts.value
     },
-    tt: {
-      following: +tt_following.value,
-      followers: +tt_followers.value,
-      posts: +tt_posts.value,
-      stories: +tt_stories.value
+    instagram: {
+      following: ig_following.value,
+      followers: ig_followers.value,
+      posts: ig_posts.value,
+      stories: ig_stories.value
     },
-    th: {
-      following: +th_following.value,
-      followers: +th_followers.value,
-      posts: +th_posts.value
+    tiktok: {
+      following: tt_following.value,
+      followers: tt_followers.value,
+      posts: tt_posts.value,
+      stories: tt_stories.value
     },
     pm: {
-      texts: +pm_texts.value,
-      audios: +pm_audios.value,
-      images: +pm_images.value
+      texts: pm_texts.value,
+      audios: pm_audios.value,
+      images: pm_images.value
     }
   };
 
-  localStorage.setItem("laporan", JSON.stringify(data));
+  localStorage.setItem("laporan_bulanan", JSON.stringify(data));
+
+  // 🔥 LANGSUNG KE HALAMAN OUTPUT
   window.location.href = "OutputLaporan.html";
 }
 </script>
 
 </body>
-</html> 
+</html>
