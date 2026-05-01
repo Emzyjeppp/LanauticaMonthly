@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Vote System</title>
+<style>
+body {font-family: Arial; background:#eee; text-align:center;}
+.container {background:white; width:400px; margin:50px auto; padding:20px; border-radius:15px;}
+.tab {padding:10px 20px; border:1px solid #900; cursor:pointer; display:inline-block; margin:5px; border-radius:10px;}
+.active {background:#900; color:white;}
+.section {display:none;}
+.section.active {display:block;}
+button {background:#900; color:white; padding:10px; border:none; border-radius:10px; width:100%;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div>
+    <span class="tab active" onclick="showTab(0)">Donasi Vote</span>
+    <span class="tab" onclick="showTab(1)">QRIS</span>
+    <span class="tab" onclick="showTab(2)">Vote Mandiri</span>
+  </div>
+
+  <div class="section active">
+    <h3>Donasi Vote</h3>
+    <input placeholder="Nama"><br><br>
+    <input placeholder="Masukkan code"><br><br>
+    <button>Submit</button>
+  </div>
+
+  <div class="section">
+    <h3>QRIS</h3>
+    <p>Scan QR di sini</p>
+  </div>
+
+  <div class="section">
+    <h3>Vote Mandiri</h3>
+    <input placeholder="Jumlah vote"><br><br>
+    <input type="file"><br><br>
+    <button>Submit</button>
+  </div>
+</div>
+
+<script>
+function showTab(index){
+  let tabs = document.querySelectorAll('.tab');
+  let sections = document.querySelectorAll('.section');
+
+  tabs.forEach(t=>t.classList.remove('active'));
+  sections.forEach(s=>s.classList.remove('active'));
+
+  tabs[index].classList.add('active');
+  sections[index].classList.add('active');
+}
+</script>
+
+</body>
+</html>

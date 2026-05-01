@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Output Laporan</title>
+
+<style>
+body {
+  background:#0f172a;
+  color:white;
+  font-family:sans-serif;
+}
+
+.wrapper {
+  max-width:800px;
+  margin:auto;
+  padding:20px;
+}
+
+.title {
+  text-align:center;
+  font-size:24px;
+  color:#38bdf8;
+  margin-bottom:20px;
+}
+
+.card {
+  background:#1e4f6f;
+  border-radius:20px;
+  padding:20px;
+  border:4px solid #e5e7eb;
+}
+
+.row {
+  display:flex;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.logo {
+  width:40px;
+  margin-right:15px;
+}
+
+.divider {
+  width:2px;
+  height:70px;
+  background:white;
+  margin-right:15px;
+}
+
+.up { color:#22c55e;}
+.down { color:#ef4444;}
+</style>
+
+</head>
+<body>
+
+<div class="wrapper">
+
+<div class="title">📊 Social Media Counts</div>
+
+<div id="output" class="card"></div>
+
+</div>
+
+<script>
+
+function format(n){
+  if(n>=1000) return (n/1000).toFixed(0)+"K";
+  return n;
+}
+
+function row(icon, content){
+  return `
+  <div class="row">
+    <img src="${icon}" class="logo">
+    <div class="divider"></div>
+    <div>${content}</div>
+  </div>`;
+}
+
+const data = JSON.parse(localStorage.getItem("laporan"));
+
+let html = "";
+
+// X
+html += row(
+  "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg",
+  `FOLLOWING: ${data.x.following}<br>
+   FOLLOWERS: ${format(data.x.followers)}<br>
+   POSTS: ${data.x.posts}`
+);
+
+// Threads
+html += row(
+  "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/threads.svg",
+  `FOLLOWING: ${data.th.following}<br>
+   FOLLOWERS: ${format(data.th.followers)}<br>
+   POSTS: ${data.th.posts}`
+);
+
+// Instagram
+html += row(
+  "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg",
+  `FOLLOWING: ${data.ig.following}<br>
+   FOLLOWERS: ${format(data.ig.followers)}<br>
+   POSTS: ${data.ig.posts}<br>
+   STORIES: ${data.ig.stories}`
+);
+
+// TikTok
+html += row(
+  "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg",
+  `FOLLOWING: ${data.tt.following}<br>
+   FOLLOWERS: ${format(data.tt.followers)}<br>
+   POSTS: ${data.tt.posts}<br>
+   STORIES: ${data.tt.stories}`
+);
+
+// Fanbase
+html += row(
+  "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+  `TEXTS: ${data.pm.texts}<br>
+   AUDIOS: ${data.pm.audios}<br>
+   IMAGES: ${data.pm.images}`
+);
+
+document.getElementById("output").innerHTML = html;
+
+</script>
+
+</body>
+</html>

@@ -97,8 +97,8 @@
     <h2>Bulk Time Converter</h2>
 
     <textarea id="inputData" rows="8" placeholder="Contoh:
-7.15 PM · 14 Mar 2026
-11.06 AM · 13 Mar 2026"></textarea>
+12.03 AM - 1 Mei 2026
+1.05 PM · 14 Mar 2026"></textarea>
 
     <button onclick="convertBulk()">Convert</button>
     <button onclick="copyResult()">Copy</button>
@@ -109,7 +109,17 @@
   </div>
 
   <script>
+    const monthMap = {
+      Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+      Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
+
+      Januari: 0, Februari: 1, Maret: 2, April: 3, Mei: 4, Juni: 5,
+      Juli: 6, Agustus: 7, September: 8, Oktober: 9, November: 10, Desember: 11
+    };
+
     function formatCustom(date) {
+      if (isNaN(date)) return "Invalid Date";
+
       const month = date.getMonth() + 1;
       const day = date.getDate();
       const year = date.getFullYear();
@@ -123,22 +133,36 @@
 
     function convertLine(input) {
       try {
-        const parts = input.split("·");
+        if (!input) return "";
+
+        // Support "·" atau "-"
+        const parts = input.split(/·|-/);
         if (parts.length !== 2) return "Format salah: " + input;
 
         const timePart = parts[0].trim();
         const datePart = parts[1].trim();
 
-        let [time, modifier] = timePart.split(" ");
-        let [hours, minutes] = time.split(".");
+        // Support ":" atau "."
+        let [time, modifier] = timePart.replace(":", ".").split(" ");
+        if (!time || !modifier) return "Format waktu salah: " + input;
 
+        let [hours, minutes] = time.split(".");
         hours = parseInt(hours);
         minutes = parseInt(minutes);
 
-        if (modifier === "PM" && hours !== 12) hours += 12;
-        if (modifier === "AM" && hours === 12) hours = 0;
+        if (isNaN(hours) || isNaN(minutes)) return "Jam tidak valid: " + input;
 
-        const date = new Date(`${datePart} ${hours}:${minutes}:00 GMT+0700`);
+        if (modifier.toUpperCase() === "PM" && hours !== 12) hours += 12;
+        if (modifier.toUpperCase() === "AM" && hours === 12) hours = 0;
+
+        const [day, monthStr, year] = datePart.split(" ");
+        const month = monthMap[monthStr];
+
+        if (!day || !monthStr || !year || month === undefined) {
+          return "Tanggal tidak valid: " + input;
+        }
+
+        const date = new Date(year, month, parseInt(day), hours, minutes, 0);
 
         return formatCustom(date);
 
@@ -156,10 +180,9 @@
       document.getElementById("outputData").value = results;
     }
 
-    function copyResult() {
-      const output = document.getElementById("outputData");
-      output.select();
-      document.execCommand("copy");
+    async function copyResult() {
+      const output = document.getElementById("outputData").value;
+      await navigator.clipboard.writeText(output);
       alert("Hasil disalin!");
     }
 

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Input Laporan</title>
+
+<style>
+body { background:#0f172a; color:white; font-family:sans-serif; padding:20px;}
+input { display:block; margin:5px 0; padding:8px; border-radius:8px; border:none; width:200px;}
+button { padding:10px; border-radius:10px; border:none; background:#38bdf8;}
+</style>
+
+</head>
+<body>
+
+<h2>📥 Input Data</h2>
+
+<h3>X (Twitter)</h3>
+<input id="x_following" placeholder="Following">
+<input id="x_followers" placeholder="Followers">
+<input id="x_posts" placeholder="Posts">
+
+<h3>Instagram</h3>
+<input id="ig_following">
+<input id="ig_followers">
+<input id="ig_posts">
+<input id="ig_stories">
+
+<h3>TikTok</h3>
+<input id="tt_following">
+<input id="tt_followers">
+<input id="tt_posts">
+<input id="tt_stories">
+
+<h3>Threads</h3>
+<input id="th_following">
+<input id="th_followers">
+<input id="th_posts">
+
+<h3>Fanbase</h3>
+<input id="pm_texts">
+<input id="pm_audios">
+<input id="pm_images">
+
+<br>
+<button onclick="save()">💾 Simpan & Lihat</button>
+
+<script>
+function save(){
+  const data = {
+    x: {
+      following: +x_following.value,
+      followers: +x_followers.value,
+      posts: +x_posts.value
+    },
+    ig: {
+      following: +ig_following.value,
+      followers: +ig_followers.value,
+      posts: +ig_posts.value,
+      stories: +ig_stories.value
+    },
+    tt: {
+      following: +tt_following.value,
+      followers: +tt_followers.value,
+      posts: +tt_posts.value,
+      stories: +tt_stories.value
+    },
+    th: {
+      following: +th_following.value,
+      followers: +th_followers.value,
+      posts: +th_posts.value
+    },
+    pm: {
+      texts: +pm_texts.value,
+      audios: +pm_audios.value,
+      images: +pm_images.value
+    }
+  };
+
+  localStorage.setItem("laporan", JSON.stringify(data));
+  window.location.href = "OutputLaporan.html";
+}
+</script>
+
+</body>
+</html> 
