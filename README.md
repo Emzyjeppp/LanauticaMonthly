@@ -48,12 +48,4 @@ LanauticaMonthly-main/
 ├── testingvotecode.html  # Modul uji coba sistem voting sederhana
 ├── style.css             # Stylesheet global
 └── a9848f.png            # Logo utama aplikasitext
-LanauticaMonthly-main/
-├── index.html            # Dashboard utama aplikasi
-├── ConvertDate.html      # Alat konversi format tanggal/waktu
-├── ConvertPicture.html   # Alat generator nama file berbasis Unix
-├── InputLaporan.html     # Form input statistik media sosial
-├── OutputLaporan.html    # Halaman tampilan laporan bulanan
-├── testingvotecode.html  # Modul uji coba sistem voting sederhana
-├── style.css             # Stylesheet global
-└── a9848f.png            # Logo utama aplikasi
+
