@@ -805,13 +805,13 @@
       const data = collectData();
 
       try {
-        const res = await fetch(`${config.url}/rest/v1/laporan`, {
+        const res = await fetch(`${config.url}/rest/v1/laporan?on_conflict=tahun,bulan,is_draft`, {
           method: "POST",
           headers: {
             "apikey": config.key,
             "Authorization": `Bearer ${config.key}`,
             "Content-Type": "application/json",
-            "Prefer": "on_conflict=tahun,bulan,is_draft,resolution=merge-duplicates"
+            "Prefer": "resolution=merge-duplicates"
           },
           body: JSON.stringify({
             tahun: currentYear,
