@@ -910,7 +910,7 @@
             let restoredCount = 0;
 
             for (let row of imported) {
-              if (row.tahun && row.bulan && row.data) {
+              if (row.tahun !== undefined && row.bulan !== undefined && row.data) {
                 const res = await fetch(`${config.url}/rest/v1/laporan?on_conflict=tahun,bulan,is_draft`, {
                   method: "POST",
                   headers: {
