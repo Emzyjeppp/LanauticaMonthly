@@ -1,202 +1,836 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Input Laporan Bulanan</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Input Laporan Bulanan - Lanautica</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-<style>
-body {
-  background: linear-gradient(135deg, #0f172a, #020617);
-  font-family: 'Segoe UI', sans-serif;
-  background: #0f172a;
-  color: white;
-  padding: 20px;
-}
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #090d16, #111827, #1e293b);
+      --card-bg: rgba(30, 41, 59, 0.65);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --accent-amber: #f59e0b;
+      --accent-amber-hover: #d97706;
+      --accent-blue: #38bdf8;
+      --accent-green: #10b981;
+      --accent-purple: #a78bfa;
+      --accent-red: #ef4444;
+    }
 
-.container {
-  max-width: 800px;
-  margin: auto;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Outfit', 'Segoe UI', sans-serif;
+    }
 
-h1 {
-  text-align: center;
-  color: #38bdf8;
-}
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px;
+    }
 
-.section {
-  background: #1e293b;
-  padding: 25px;
-  border-radius: 18px;
-  margin-bottom: 25px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-}
+    .header-nav {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding: 0 10px;
+    }
 
-h2 {
-  color: #f59e0b;
-}
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+    }
 
-input {
-  width: 100%;
-  padding: 12px 14px;
-  margin-bottom: 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: #0f172a;
-  color: white;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
+    .back-btn:hover {
+      color: var(--accent-amber);
+      border-color: rgba(245, 158, 11, 0.3);
+      background: rgba(245, 158, 11, 0.05);
+    }
 
-input::placeholder {
-  color: #64748b;
-}
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent-amber);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-input:hover {
-  border-color: rgba(255,255,255,0.2);
-}
+    .container {
+      width: 100%;
+      max-width: 800px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
 
-input:focus {
-  outline: none;
-  border-color: #38bdf8;
-  box-shadow: 0 0 0 2px rgba(56,189,248,0.3);
-}
+    .section-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+    }
 
-h3 {
-  margin-top: 20px;
-  margin-bottom: 8px;
-  color: #e2e8f0;
-  font-size: 15px;
-}
+    .section-header {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 10px;
+    }
 
-button {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  background: #22c55e;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-</style>
+    .section-header.yellow { color: var(--accent-amber); }
+    .section-header.purple { color: var(--accent-purple); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .platform-container {
+      background: rgba(15, 23, 42, 0.4);
+      padding: 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .platform-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .platform-title img {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+    }
+
+    .input-wrapper {
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .input-wrapper:last-child {
+      margin-bottom: 0;
+    }
+
+    input {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input::placeholder {
+      color: #57657a;
+    }
+
+    input:focus {
+      border-color: var(--accent-amber);
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    /* Save Button */
+    .save-btn-wrapper {
+      margin-bottom: 40px;
+    }
+
+    .btn-save {
+      width: 100%;
+      background: var(--accent-green);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+      box-shadow: 0 10px 20px rgba(16, 185, 129, 0.15);
+    }
+
+    .btn-save:hover {
+      background: #059669;
+      box-shadow: 0 12px 24px rgba(16, 185, 129, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .draft-indicator {
+      font-size: 12px;
+      color: var(--accent-green);
+      text-align: center;
+      margin-top: 8px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .draft-indicator.show {
+      opacity: 1;
+    }
+    select {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    select:focus {
+      border-color: var(--accent-amber);
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
+  <div class="header-nav">
+    <a href="index.html" class="back-btn">
+      ← Hub Utama
+    </a>
+    <div class="page-title">
+      📥 Input Laporan Bulanan
+    </div>
+    <button class="back-btn" onclick="openSettingsModal()" style="border-color: rgba(245, 158, 11, 0.2); color: var(--accent-amber);">
+      ⚙️ Setup Cloud
+    </button>
+  </div>
 
-<h1>📥 Input Laporan Bulanan</h1>
+  <div class="container">
+    
+    <!-- MONTH & YEAR SELECTION -->
+    <div class="section-card" style="padding: 20px;">
+      <div class="grid-2">
+        <div class="control-group">
+          <label for="laporan_bulan">Pilih Bulan Laporan</label>
+          <select id="laporan_bulan" onchange="changeMonthYear()">
+            <option value="0">Januari</option>
+            <option value="1">Februari</option>
+            <option value="2">Maret</option>
+            <option value="3">April</option>
+            <option value="4">Mei</option>
+            <option value="5">Juni</option>
+            <option value="6">Juli</option>
+            <option value="7">Agustus</option>
+            <option value="8">September</option>
+            <option value="9">Oktober</option>
+            <option value="10">November</option>
+            <option value="11">Desember</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="laporan_tahun">Pilih Tahun</label>
+          <select id="laporan_tahun" onchange="changeMonthYear()">
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 1. LIVE STREAM SECTION -->
+    <div class="section-card">
+      <div class="section-header">
+        <span>🎥 Live Stream Counts</span>
+      </div>
+      
+      <div class="grid-2">
+        <!-- SHOWROOM -->
+        <div class="platform-container">
+          <div class="platform-title">
+            <span style="font-size: 16px;">✨</span> Showroom
+          </div>
+          <div class="input-wrapper">
+            <input id="sr_following" type="text" placeholder="Following (Contoh: 124)">
+          </div>
+          <div class="input-wrapper">
+            <input id="sr_followers" type="text" placeholder="Followers (Contoh: 45000)">
+          </div>
+          <div class="input-wrapper">
+            <input id="sr_streams" type="text" placeholder="Streams (Jumlah Live)">
+          </div>
+          <div class="input-wrapper">
+            <input id="sr_views" type="text" placeholder="Views (Total Penonton)">
+          </div>
+          <div class="input-wrapper">
+            <input id="sr_comments" type="text" placeholder="Comments (Jumlah Komentar)">
+          </div>
+        </div>
 
-<!-- LIVE STREAM -->
-<div class="section">
-  <h2>🎥 Live Stream Counts</h2>
+        <!-- IDN LIVE -->
+        <div class="platform-container">
+          <div class="platform-title">
+            <span style="font-size: 16px;">🔴</span> IDN Live
+          </div>
+          <div class="input-wrapper">
+            <input id="idn_following" type="text" placeholder="Following">
+          </div>
+          <div class="input-wrapper">
+            <input id="idn_followers" type="text" placeholder="Followers">
+          </div>
+          <div class="input-wrapper">
+            <input id="idn_streams" type="text" placeholder="Streams (Jumlah Live)">
+          </div>
+          <div class="input-wrapper">
+            <input id="idn_views" type="text" placeholder="Views (Total Penonton)">
+          </div>
+          <div class="input-wrapper">
+            <input id="idn_comments" type="text" placeholder="Comments (Jumlah Komentar)">
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <h3>Showroom</h3>
-  <input id="sr_following" placeholder="Following">
-  <input id="sr_followers" placeholder="Followers">
-  <input id="sr_streams" placeholder="Streams">
-  <input id="sr_views" placeholder="Views">
-  <input id="sr_comments" placeholder="Comments">
+    <!-- 2. SOCIAL MEDIA SECTION -->
+    <div class="section-card">
+      <div class="section-header yellow">
+        <span>📱 Social Media Counts</span>
+      </div>
 
-  <h3>IDN</h3>
-  <input id="idn_following" placeholder="Following">
-  <input id="idn_followers" placeholder="Followers">
-  <input id="idn_streams" placeholder="Streams">
-  <input id="idn_views" placeholder="Views">
-  <input id="idn_comments" placeholder="Comments">
-</div>
+      <div class="grid-2">
+        <!-- X (TWITTER) -->
+        <div class="platform-container">
+          <div class="platform-title">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg" alt="X Icon" style="filter: invert(1)"> X (Twitter)
+          </div>
+          <div class="input-wrapper">
+            <input id="x_following" type="text" placeholder="Following">
+          </div>
+          <div class="input-wrapper">
+            <input id="x_followers" type="text" placeholder="Followers">
+          </div>
+          <div class="input-wrapper">
+            <input id="x_posts" type="text" placeholder="Posts (Postingan)">
+          </div>
+        </div>
 
-<!-- SOCIAL MEDIA -->
-<div class="section">
-  <h2>📱 Social Media Counts</h2>
+        <!-- THREADS -->
+        <div class="platform-container">
+          <div class="platform-title">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/threads.svg" alt="Threads Icon" style="filter: invert(1)"> Threads
+          </div>
+          <div class="input-wrapper">
+            <input id="th_following" type="text" placeholder="Following">
+          </div>
+          <div class="input-wrapper">
+            <input id="th_followers" type="text" placeholder="Followers">
+          </div>
+          <div class="input-wrapper">
+            <input id="th_posts" type="text" placeholder="Posts">
+          </div>
+        </div>
 
-  <h3>X (Twitter)</h3>
-  <input id="x_following" placeholder="Following">
-  <input id="x_followers" placeholder="Followers">
-  <input id="x_posts" placeholder="Posts">
+        <!-- INSTAGRAM -->
+        <div class="platform-container" style="margin-top: 15px;">
+          <div class="platform-title">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram Icon" style="filter: invert(1)"> Instagram
+          </div>
+          <div class="input-wrapper">
+            <input id="ig_following" type="text" placeholder="Following">
+          </div>
+          <div class="input-wrapper">
+            <input id="ig_followers" type="text" placeholder="Followers">
+          </div>
+          <div class="input-wrapper">
+            <input id="ig_posts" type="text" placeholder="Posts">
+          </div>
+          <div class="input-wrapper">
+            <input id="ig_stories" type="text" placeholder="Stories">
+          </div>
+        </div>
 
-  <h3>Threads</h3>
-  <input id="th_following" placeholder="Following">
-  <input id="th_followers" placeholder="Followers">
-  <input id="th_posts" placeholder="Posts">
+        <!-- TIKTOK -->
+        <div class="platform-container" style="margin-top: 15px;">
+          <div class="platform-title">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" alt="TikTok Icon" style="filter: invert(1)"> TikTok
+          </div>
+          <div class="input-wrapper">
+            <input id="tt_following" type="text" placeholder="Following">
+          </div>
+          <div class="input-wrapper">
+            <input id="tt_followers" type="text" placeholder="Followers">
+          </div>
+          <div class="input-wrapper">
+            <input id="tt_posts" type="text" placeholder="Posts">
+          </div>
+          <div class="input-wrapper">
+            <input id="tt_stories" type="text" placeholder="Stories">
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <h3>Instagram</h3>
-  <input id="ig_following" placeholder="Following">
-  <input id="ig_followers" placeholder="Followers">
-  <input id="ig_posts" placeholder="Posts">
-  <input id="ig_stories" placeholder="Stories">
+    <!-- 3. PRIVATE MESSAGE / FANBASE -->
+    <div class="section-card">
+      <div class="section-header purple">
+        <span>💬 PM (Fanbase)</span>
+      </div>
 
-  <h3>TikTok</h3>
-  <input id="tt_following" placeholder="Following">
-  <input id="tt_followers" placeholder="Followers">
-  <input id="tt_posts" placeholder="Posts">
-  <input id="tt_stories" placeholder="Stories">
-</div>
+      <div class="platform-container">
+        <div class="platform-title">
+          <span style="font-size: 16px;">💌</span> Private Message
+        </div>
+        <div class="grid-2" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="input-wrapper">
+            <input id="pm_texts" type="text" placeholder="Texts (Pesan Teks)">
+          </div>
+          <div class="input-wrapper">
+            <input id="pm_audios" type="text" placeholder="Audios (Pesan Suara)">
+          </div>
+          <div class="input-wrapper">
+            <input id="pm_images" type="text" placeholder="Images (Gambar)">
+          </div>
+        </div>
+      </div>
+    </div>
 
-<!-- PM -->
-<div class="section">
-  <h2>💬 PM (Fanbase)</h2>
-  <input id="pm_texts" placeholder="Texts">
-  <input id="pm_audios" placeholder="Audios">
-  <input id="pm_images" placeholder="Images">
-</div>
+    <!-- SAVE & AUTO DRAFT ACTION -->
+    <div class="save-btn-wrapper">
+      <button class="btn-save" onclick="save()">
+        💾 Simpan & Terbitkan Laporan
+      </button>
+      <div class="draft-indicator" id="draftIndicator">Draf perubahan disimpan otomatis...</di  <!-- SETTINGS MODAL -->
+  <div id="settingsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
+    <div class="section-card" style="width: 90%; max-width: 500px; position: relative;">
+      <h2 style="color: var(--accent-amber); margin-bottom: 20px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+        <span>⚙️ Setup Supabase Cloud</span>
+        <span onclick="closeSettingsModal()" style="cursor: pointer; font-size: 20px;">&times;</span>
+      </h2>
+      <div class="control-group" style="margin-bottom: 15px;">
+        <label for="cfg_url">Supabase Project URL</label>
+        <input id="cfg_url" type="text" placeholder="https://xyz.supabase.co">
+      </div>
+      <div class="control-group" style="margin-bottom: 15px;">
+        <label for="cfg_key">Supabase Anon API Key</label>
+        <input id="cfg_key" type="text" placeholder="eyJhbGciOi...">
+      </div>
+      <div class="control-group" style="margin-bottom: 20px;">
+        <label for="cfg_pin">Admin PIN (untuk Menyimpan)</label>
+        <input id="cfg_pin" type="text" placeholder="1234">
+      </div>
+      <button class="btn-save" onclick="saveSettings()" style="background: var(--accent-amber); color: #090d16;">Simpan Konfigurasi</button>
+    </div>
+  </div>
 
-<button onclick="save()">💾 Simpan</button>
+  <script>
+    // HARDCODED CONFIG (Opsional - Bisa diisi di sini agar tidak perlu setup manual di browser)
+    const SUPABASE_HARDCODED = {
+      url: "",
+      key: "",
+      admin_pin: ""
+    };
 
-</div>
-
-<script>
-function save() {
-  const data = {
-    showroom: {
-      following: sr_following.value,
-      followers: sr_followers.value,
-      streams: sr_streams.value,
-      views: sr_views.value,
-      comments: sr_comments.value
-    },
-    idn: {
-      following: idn_following.value,
-      followers: idn_followers.value,
-      streams: idn_streams.value,
-      views: idn_views.value,
-      comments: idn_comments.value
-    },
-    x: {
-      following: x_following.value,
-      followers: x_followers.value,
-      posts: x_posts.value
-    },
-    threads: {
-      following: th_following.value,
-      followers: th_followers.value,
-      posts: th_posts.value
-    },
-    instagram: {
-      following: ig_following.value,
-      followers: ig_followers.value,
-      posts: ig_posts.value,
-      stories: ig_stories.value
-    },
-    tiktok: {
-      following: tt_following.value,
-      followers: tt_followers.value,
-      posts: tt_posts.value,
-      stories: tt_stories.value
-    },
-    pm: {
-      texts: pm_texts.value,
-      audios: pm_audios.value,
-      images: pm_images.value
+    // Get active configuration
+    function getSupabaseConfig() {
+      return {
+        url: SUPABASE_HARDCODED.url || localStorage.getItem("supabase_url") || "",
+        key: SUPABASE_HARDCODED.key || localStorage.getItem("supabase_key") || "",
+        admin_pin: SUPABASE_HARDCODED.admin_pin || localStorage.getItem("laporan_admin_pin") || "1234"
+      };
     }
-  };
 
-  localStorage.setItem("laporan_bulanan", JSON.stringify(data));
+    // Settings Modal
+    function openSettingsModal() {
+      const config = getSupabaseConfig();
+      document.getElementById("cfg_url").value = config.url;
+      document.getElementById("cfg_key").value = config.key;
+      document.getElementById("cfg_pin").value = config.admin_pin;
+      document.getElementById("settingsModal").style.display = "flex";
+    }
 
-  // 🔥 LANGSUNG KE HALAMAN OUTPUT
-  window.location.href = "OutputLaporan.html";
-}
-</script>
+    function closeSettingsModal() {
+      document.getElementById("settingsModal").style.display = "none";
+    }
 
+    function saveSettings() {
+      const url = document.getElementById("cfg_url").value.trim();
+      const key = document.getElementById("cfg_key").value.trim();
+      const pin = document.getElementById("cfg_pin").value.trim();
+
+      if (url && !url.startsWith("http")) {
+        alert("URL harus diawali dengan http:// atau https://");
+        return;
+      }
+
+      localStorage.setItem("supabase_url", url);
+      localStorage.setItem("supabase_key", key);
+      localStorage.setItem("laporan_admin_pin", pin);
+      
+      closeSettingsModal();
+      alert("Konfigurasi disimpan! Memuat ulang data...");
+      window.location.reload();
+    }
+
+    // List of all input IDs
+    const inputIds = [
+      "sr_following", "sr_followers", "sr_streams", "sr_views", "sr_comments",
+      "idn_following", "idn_followers", "idn_streams", "idn_views", "idn_comments",
+      "x_following", "x_followers", "x_posts",
+      "th_following", "th_followers", "th_posts",
+      "ig_following", "ig_followers", "ig_posts", "ig_stories",
+      "tt_following", "tt_followers", "tt_posts", "tt_stories",
+      "pm_texts", "pm_audios", "pm_images"
+    ];
+
+    // Tracking current selected month/year to know what we are changing from
+    let currentMonth = null;
+    let currentYear = null;
+
+    // Load existing report or draft
+    window.addEventListener("DOMContentLoaded", () => {
+      // Default to current date if not set in localStorage
+      const now = new Date();
+      let defaultMonth = now.getMonth(); // 0-11
+      let defaultYear = now.getFullYear();
+
+      // Check if there is an active navigation state
+      const savedMonth = localStorage.getItem("selected_laporan_month");
+      const savedYear = localStorage.getItem("selected_laporan_year");
+
+      if (savedMonth !== null && savedYear !== null) {
+        defaultMonth = parseInt(savedMonth);
+        defaultYear = parseInt(savedYear);
+      }
+
+      document.getElementById("laporan_bulan").value = defaultMonth;
+      document.getElementById("laporan_tahun").value = defaultYear;
+
+      currentMonth = defaultMonth;
+      currentYear = defaultYear;
+
+      // Check config. If empty, prompt settings modal
+      const config = getSupabaseConfig();
+      if (!config.url || !config.key) {
+        setTimeout(() => {
+          alert("Silakan atur koneksi database Supabase terlebih dahulu.");
+          openSettingsModal();
+        }, 300);
+      } else {
+        // Load data for this initial month
+        loadMonthData(currentYear, currentMonth);
+      }
+
+      // Bind auto-save to inputs
+      inputIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("input", saveDraft);
+        }
+      });
+    });
+
+    // Fetch from Supabase Cloud
+    async function fetchFromSupabase(year, month) {
+      const config = getSupabaseConfig();
+      if (!config.url || !config.key) return null;
+
+      try {
+        const res = await fetch(`${config.url}/rest/v1/laporan?select=data&tahun=eq.${year}&bulan=eq.${month}&is_draft=eq.false`, {
+          headers: {
+            "apikey": config.key,
+            "Authorization": `Bearer ${config.key}`
+          }
+        });
+        if (!res.ok) return null;
+        const json = await res.json();
+        return json.length > 0 ? json[0].data : null;
+      } catch (e) {
+        console.error("Supabase fetch error:", e);
+        return null;
+      }
+    }
+
+    // Load data from localStorage (draft) or Supabase (saved)
+    async function loadMonthData(year, month) {
+      clearForm();
+      
+      const keyDraft = `laporan_draft_${year}_${month}`;
+      const draft = localStorage.getItem(keyDraft);
+
+      // 1. Try to load local draft first (unsaved edits)
+      if (draft) {
+        populateForm(JSON.parse(draft));
+        return;
+      }
+
+      // 2. If no draft, fetch saved report from Supabase Cloud
+      const cloudData = await fetchFromSupabase(year, month);
+      if (cloudData) {
+        populateForm(cloudData);
+      }
+    }
+
+    function changeMonthYear() {
+      // 1. Save draft for the old selection before switching
+      if (currentMonth !== null && currentYear !== null) {
+        const oldData = collectData();
+        // Check if oldData is empty to avoid saving blank drafts
+        let hasContent = false;
+        for (let section in oldData) {
+          for (let field in oldData[section]) {
+            if (oldData[section][field]) hasContent = true;
+          }
+        }
+        if (hasContent) {
+          localStorage.setItem(`laporan_draft_${currentYear}_${currentMonth}`, JSON.stringify(oldData));
+        }
+      }
+
+      // 2. Update tracking variable
+      currentMonth = parseInt(document.getElementById("laporan_bulan").value);
+      currentYear = parseInt(document.getElementById("laporan_tahun").value);
+
+      // 3. Set standard selection state
+      localStorage.setItem("selected_laporan_month", currentMonth);
+      localStorage.setItem("selected_laporan_year", currentYear);
+
+      // 4. Load data for the new selection
+      loadMonthData(currentYear, currentMonth);
+    }
+
+    function clearForm() {
+      inputIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+      });
+    }
+
+    function populateForm(data) {
+      if (!data) return;
+      // Stream
+      if (data.showroom) {
+        document.getElementById("sr_following").value = data.showroom.following || "";
+        document.getElementById("sr_followers").value = data.showroom.followers || "";
+        document.getElementById("sr_streams").value = data.showroom.streams || "";
+        document.getElementById("sr_views").value = data.showroom.views || "";
+        document.getElementById("sr_comments").value = data.showroom.comments || "";
+      }
+      if (data.idn) {
+        document.getElementById("idn_following").value = data.idn.following || "";
+        document.getElementById("idn_followers").value = data.idn.followers || "";
+        document.getElementById("idn_streams").value = data.idn.streams || "";
+        document.getElementById("idn_views").value = data.idn.views || "";
+        document.getElementById("idn_comments").value = data.idn.comments || "";
+      }
+      // X
+      if (data.x) {
+        document.getElementById("x_following").value = data.x.following || "";
+        document.getElementById("x_followers").value = data.x.followers || "";
+        document.getElementById("x_posts").value = data.x.posts || "";
+      }
+      // Threads
+      if (data.threads) {
+        document.getElementById("th_following").value = data.threads.following || "";
+        document.getElementById("th_followers").value = data.threads.followers || "";
+        document.getElementById("th_posts").value = data.threads.posts || "";
+      }
+      // Instagram
+      if (data.instagram) {
+        document.getElementById("ig_following").value = data.instagram.following || "";
+        document.getElementById("ig_followers").value = data.instagram.followers || "";
+        document.getElementById("ig_posts").value = data.instagram.posts || "";
+        document.getElementById("ig_stories").value = data.instagram.stories || "";
+      }
+      // TikTok
+      if (data.tiktok) {
+        document.getElementById("tt_following").value = data.tiktok.following || "";
+        document.getElementById("tt_followers").value = data.tiktok.followers || "";
+        document.getElementById("tt_posts").value = data.tiktok.posts || "";
+        document.getElementById("tt_stories").value = data.tiktok.stories || "";
+      }
+      // PM
+      if (data.pm) {
+        document.getElementById("pm_texts").value = data.pm.texts || "";
+        document.getElementById("pm_audios").value = data.pm.audios || "";
+        document.getElementById("pm_images").value = data.pm.images || "";
+      }
+    }
+
+    function collectData() {
+      return {
+        showroom: {
+          following: document.getElementById("sr_following").value,
+          followers: document.getElementById("sr_followers").value,
+          streams: document.getElementById("sr_streams").value,
+          views: document.getElementById("sr_views").value,
+          comments: document.getElementById("sr_comments").value
+        },
+        idn: {
+          following: document.getElementById("idn_following").value,
+          followers: document.getElementById("idn_followers").value,
+          streams: document.getElementById("idn_streams").value,
+          views: document.getElementById("idn_views").value,
+          comments: document.getElementById("idn_comments").value
+        },
+        x: {
+          following: document.getElementById("x_following").value,
+          followers: document.getElementById("x_followers").value,
+          posts: document.getElementById("x_posts").value
+        },
+        threads: {
+          following: document.getElementById("th_following").value,
+          followers: document.getElementById("th_followers").value,
+          posts: document.getElementById("th_posts").value
+        },
+        instagram: {
+          following: document.getElementById("ig_following").value,
+          followers: document.getElementById("ig_followers").value,
+          posts: document.getElementById("ig_posts").value,
+          stories: document.getElementById("ig_stories").value
+        },
+        tiktok: {
+          following: document.getElementById("tt_following").value,
+          followers: document.getElementById("tt_followers").value,
+          posts: document.getElementById("tt_posts").value,
+          stories: document.getElementById("tt_stories").value
+        },
+        pm: {
+          texts: document.getElementById("pm_texts").value,
+          audios: document.getElementById("pm_audios").value,
+          images: document.getElementById("pm_images").value
+        }
+      };
+    }
+
+    let saveTimeout = null;
+    function saveDraft() {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        const data = collectData();
+        localStorage.setItem(`laporan_draft_${currentYear}_${currentMonth}`, JSON.stringify(data));
+        
+        const indicator = document.getElementById("draftIndicator");
+        indicator.classList.add("show");
+        setTimeout(() => {
+          indicator.classList.remove("show");
+        }, 1500);
+      }, 500); // Debounce saves
+    }
+
+    // Save final report to Supabase
+    async function save() {
+      const config = getSupabaseConfig();
+      if (!config.url || !config.key) {
+        alert("Silakan lengkapi konfigurasi Supabase (klik Setup Cloud di atas)!");
+        openSettingsModal();
+        return;
+      }
+
+      // Prompt for security PIN
+      const pin = prompt("Masukkan PIN Admin untuk menyimpan laporan:");
+      if (pin === null) return;
+      if (pin !== config.admin_pin) {
+        alert("PIN salah! Anda tidak memiliki akses untuk menyimpan laporan.");
+        return;
+      }
+
+      const data = collectData();
+
+      try {
+        const res = await fetch(`${config.url}/rest/v1/laporan`, {
+          method: "POST",
+          headers: {
+            "apikey": config.key,
+            "Authorization": `Bearer ${config.key}`,
+            "Content-Type": "application/json",
+            "Prefer": "on_conflict=tahun,bulan,is_draft,resolution=merge-duplicates"
+          },
+          body: JSON.stringify({
+            tahun: currentYear,
+            bulan: currentMonth,
+            data: data,
+            is_draft: false,
+            updated_at: new Date().toISOString()
+          })
+        });
+
+        if (res.ok) {
+          // Clear draft since it is submitted
+          localStorage.removeItem(`laporan_draft_${currentYear}_${currentMonth}`);
+          alert("Laporan berhasil diterbitkan ke Cloud!");
+          window.location.href = "OutputLaporan.html";
+        } else {
+          const errMsg = await res.text();
+          alert("Gagal menerbitkan laporan ke cloud: " + errMsg);
+        }
+      } catch (err) {
+        alert("Kesalahan koneksi ke Supabase: " + err.message);
+      }
+    }
+  </script>
 </body>
 </html>
