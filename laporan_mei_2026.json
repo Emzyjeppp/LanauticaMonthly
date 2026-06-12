@@ -1,0 +1,51 @@
+[
+  {
+    "tahun": 2026,
+    "bulan": 4,
+    "is_draft": false,
+    "updated_at": "2026-06-12T10:58:00.000Z",
+    "data": {
+      "showroom": {
+        "following": "0",
+        "followers": "320149",
+        "streams": "1",
+        "views": "1000",
+        "comments": "5000"
+      },
+      "idn": {
+        "following": "49",
+        "followers": "173200",
+        "streams": "16",
+        "views": "114000",
+        "comments": "50000"
+      },
+      "x": {
+        "following": "93",
+        "followers": "195000",
+        "posts": "108"
+      },
+      "threads": {
+        "following": "57",
+        "followers": "82200",
+        "posts": "0"
+      },
+      "instagram": {
+        "following": "223",
+        "followers": "455000",
+        "posts": "1",
+        "stories": "33"
+      },
+      "tiktok": {
+        "following": "93",
+        "followers": "846800",
+        "posts": "8",
+        "stories": "1"
+      },
+      "pm": {
+        "texts": "273",
+        "audios": "19",
+        "images": "69"
+      }
+    }
+  }
+]
