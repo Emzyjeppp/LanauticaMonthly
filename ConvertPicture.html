@@ -2,102 +2,573 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Unix Timestamp Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unix Filename Generator - Lanautica</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #090d16, #111827, #1e293b);
+      --card-bg: rgba(30, 41, 59, 0.65);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --accent-green: #10b981;
+      --accent-green-hover: #059669;
+      --accent-blue: #38bdf8;
+      --accent-blue-hover: #0ea5e9;
+      --accent-red: #ef4444;
+      --accent-purple: #a78bfa;
+      --accent-purple-hover: #8b5cf6;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Outfit', 'Segoe UI', sans-serif;
     }
 
     body {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: #e2e8f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background: var(--bg-gradient);
+      color: var(--text-main);
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px;
     }
 
-    .container {
-      background: #1e293b;
+    .header-nav {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding: 0 10px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+    }
+
+    .back-btn:hover {
+      color: var(--accent-green);
+      border-color: rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent-green);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 25px;
+      z-index: 10;
+    }
+
+    @media (max-width: 900px) {
+      .wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
       padding: 25px;
-      border-radius: 16px;
-      width: 520px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #38bdf8;
+    .pane-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    textarea, input[type="text"], input[type="number"], input[type="datetime-local"], select {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    textarea:focus, input:focus, select:focus {
+      border-color: rgba(16, 185, 129, 0.5);
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
     }
 
     textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-      resize: none;
-      background: #0f172a;
-      color: #e2e8f0;
-      margin-bottom: 15px;
-      font-size: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      resize: vertical;
     }
 
-    button {
-      padding: 10px 15px;
-      margin-right: 10px;
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .control-row-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px 18px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
+      font-weight: 700;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
-    button:nth-of-type(1) {
-      background: #38bdf8;
-      color: #0f172a;
-    }
-
-    button:nth-of-type(2) {
-      background: #22c55e;
+    .btn-primary {
+      background: var(--accent-green);
       color: white;
     }
 
-    button:nth-of-type(3) {
-      background: #ef4444;
+    .btn-primary:hover {
+      background: var(--accent-green-hover);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--accent-blue);
+      color: #090d16;
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-blue-hover);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+    }
+
+    .btn-danger {
+      background: var(--accent-red);
       color: white;
     }
 
-    h3 {
-      margin: 10px 0;
-      color: #94a3b8;
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.9);
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+    }
+
+    /* FILENAME PREVIEW LIST */
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    .file-item {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 10px 14px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      transition: background 0.2s;
+    }
+
+    .file-item:hover {
+      background: rgba(16, 185, 129, 0.05);
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .file-name {
+      color: var(--accent-green);
+      word-break: break-all;
+    }
+
+    .copy-mini-btn {
+      background: rgba(255,255,255,0.05);
+      border: none;
+      color: var(--text-muted);
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 11px;
+      transition: all 0.2s;
+    }
+
+    .copy-mini-btn:hover {
+      background: var(--accent-green);
+      color: white;
+    }
+
+    .status-msg {
+      font-size: 12px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    .status-success { color: var(--accent-green); }
+    .status-error { color: var(--accent-red); }
+
+    /* RENAME SCRIPT PANEL */
+    .script-box {
+      margin-top: 25px;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 12px;
+      padding: 15px;
+      border: 1px solid var(--card-border);
+      position: relative;
+    }
+
+    .script-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .script-lang {
+      font-size: 10px;
+      background: rgba(255,255,255,0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .script-content {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent-blue);
+      white-space: pre-wrap;
+      word-break: break-all;
+      line-height: 1.4;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #10b981;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Tabs inside input options */
+    .input-tabs {
+      display: flex;
+      background: rgba(15, 23, 42, 0.4);
+      padding: 4px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      border: 1px solid var(--card-border);
+    }
+
+    .input-tab {
+      flex: 1;
+      text-align: center;
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+
+    .input-tab.active {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h2>Unix Filename Generator</h2>
-
-    <textarea id="inputData" rows="8" placeholder="Contoh:
-7.15 PM · 14 Mar 2026"></textarea>
-
-    <button onclick="convertBulk()">Convert</button>
-    <button onclick="copyResult()">Copy</button>
-    <button onclick="clearAll()">Clear</button>
-
-    <h3>Hasil:</h3>
-    <textarea id="outputData" rows="10" readonly></textarea>
+  <div class="header-nav">
+    <a href="index.html" class="back-btn">
+      ← Hub Utama
+    </a>
+    <div class="page-title">
+      🖼 Unix Filename Generator
+    </div>
+    <div style="width: 80px;"></div> <!-- spacer -->
   </div>
 
+  <div class="wrapper">
+    <!-- LEFT PANE: CONFIGURATIONS & INPUTS -->
+    <div class="card">
+      <div class="pane-title">Metode Input Waktu</div>
+      
+      <div class="input-tabs">
+        <div class="input-tab active" id="tabTextBtn" onclick="switchTab('text')">Salin Format Teks</div>
+        <div class="input-tab" id="tabPickerBtn" onclick="switchTab('picker')">Kalender Interaktif</div>
+      </div>
+
+      <!-- TEXT AREA INPUT -->
+      <div id="textInputContainer" class="controls">
+        <div class="control-group">
+          <label for="inputData">Format String Asli</label>
+          <textarea id="inputData" rows="3" placeholder="Contoh: 7.15 PM · 14 Mar 2026" oninput="convertBulk()"></textarea>
+          <div style="display:flex; justify-content:space-between; margin-top:2px;">
+            <span style="font-size: 11px; color: var(--text-muted);">Format: [JAM].[MENIT] [AM/PM] · [HARI] [BULAN] [TAHUN]</span>
+            <button class="copy-mini-btn" style="padding: 2px 6px;" onclick="loadSample()">💡 Load Contoh</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DATE PICKER INPUT -->
+      <div id="pickerInputContainer" class="controls" style="display: none;">
+        <div class="control-group">
+          <label for="datePicker">Pilih Tanggal & Waktu</label>
+          <input type="datetime-local" id="datePicker" onchange="syncPickerToText()">
+        </div>
+      </div>
+
+      <div class="controls" style="margin-top: 20px;">
+        <div class="pane-title" style="margin-bottom: 10px; margin-top: 10px;">Konfigurasi Nama File</div>
+        
+        <div class="control-row-grid">
+          <div class="control-group">
+            <label for="fileCount">Jumlah File</label>
+            <input type="number" id="fileCount" value="4" min="1" max="100" oninput="convertBulk()">
+          </div>
+          <div class="control-group">
+            <label for="startIndex">Indeks Awal</label>
+            <input type="number" id="startIndex" value="1" min="0" oninput="convertBulk()">
+          </div>
+        </div>
+
+        <div class="control-row-grid">
+          <div class="control-group">
+            <label for="padLength">Padding Nol Indeks</label>
+            <select id="padLength" onchange="convertBulk()">
+              <option value="1">1 (e.g. 1)</option>
+              <option value="2">2 (e.g. 01)</option>
+              <option value="3" selected>3 (e.g. 001)</option>
+              <option value="4">4 (e.g. 0001)</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="fileExt">Ekstensi File</label>
+            <select id="fileExt" onchange="convertBulk()">
+              <option value=".jpg">.jpg</option>
+              <option value=".png">.png</option>
+              <option value=".webp">.webp</option>
+              <option value=".mp4">.mp4</option>
+              <option value="custom">Custom...</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-group" id="customExtGroup" style="display: none;">
+          <label for="customExt">Ekstensi Custom</label>
+          <input type="text" id="customExt" value=".jpeg" placeholder="Misal: .jpeg" oninput="convertBulk()">
+        </div>
+
+        <div class="control-row-grid">
+          <div class="control-group">
+            <label for="prefixText">Prefix Nama File</label>
+            <input type="text" id="prefixText" value="" placeholder="Opsional (misal: img-)" oninput="convertBulk()">
+          </div>
+          <div class="control-group">
+            <label for="separatorText">Karakter Pemisah</label>
+            <input type="text" id="separatorText" value="-" placeholder="Misal: - atau _" oninput="convertBulk()">
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="timezoneOffset">Waktu Acuan (Timezone)</label>
+          <select id="timezoneOffset" onchange="convertBulk()">
+            <option value="GMT+0700" selected>GMT+07:00 (WIB - Original)</option>
+            <option value="GMT+0800">GMT+08:00 (WITA)</option>
+            <option value="GMT+0900">GMT+09:00 (WIT)</option>
+            <option value="GMT+0000">GMT+00:00 (UTC)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANE: OUTPUTS -->
+    <div class="card">
+      <div class="pane-title">
+        <span>Preview Nama File</span>
+        <span class="status-msg" id="statusMessage"></span>
+      </div>
+
+      <div class="file-list" id="filenameList">
+        <!-- Live lists of generated filenames -->
+      </div>
+
+      <!-- Hidden area to store raw output for copy all -->
+      <textarea id="outputData" style="display: none;"></textarea>
+
+      <div class="button-row">
+        <button class="btn btn-primary" onclick="copyResult()">📋 Copy Semua Nama</button>
+        <button class="btn btn-danger" onclick="clearAll()">🗑 Clear</button>
+      </div>
+
+      <!-- BATCH RENAME SCRIPTS -->
+      <div class="script-box">
+        <div class="script-header">
+          <label>Script Rename (PowerShell)</label>
+          <span class="script-lang">PS</span>
+        </div>
+        <div class="script-content" id="psScript"># Masukkan data valid terlebih dahulu</div>
+        <button class="copy-mini-btn" style="position: absolute; right: 10px; bottom: 10px;" onclick="copyScript('ps')">Copy Script</button>
+      </div>
+
+      <div class="script-box" style="margin-top: 15px;">
+        <div class="script-header">
+          <label>Script Rename (Bash / Linux)</label>
+          <span class="script-lang">Bash</span>
+        </div>
+        <div class="script-content" id="bashScript"># Masukkan data valid terlebih dahulu</div>
+        <button class="copy-mini-btn" style="position: absolute; right: 10px; bottom: 10px;" onclick="copyScript('bash')">Copy Script</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toastMessage">Teks disalin ke clipboard!</div>
+
   <script>
-    function toUnix(input) {
+    let activeTab = 'text';
+
+    function switchTab(tab) {
+      activeTab = tab;
+      document.getElementById("tabTextBtn").classList.toggle("active", tab === 'text');
+      document.getElementById("tabPickerBtn").classList.toggle("active", tab === 'picker');
+      document.getElementById("textInputContainer").style.display = tab === 'text' ? 'block' : 'none';
+      document.getElementById("pickerInputContainer").style.display = tab === 'picker' ? 'block' : 'none';
+      
+      if (tab === 'picker') {
+        // Init picker with current time if empty
+        const picker = document.getElementById("datePicker");
+        if (!picker.value) {
+          const now = new Date();
+          // Adjust to local time timezone representation YYYY-MM-DDTHH:mm
+          const offset = now.getTimezoneOffset() * 60000;
+          const localISOTime = (new Date(now - offset)).toISOString().slice(0, 16);
+          picker.value = localISOTime;
+          syncPickerToText();
+        }
+      }
+      convertBulk();
+    }
+
+    function syncPickerToText() {
+      const pickerValue = document.getElementById("datePicker").value;
+      if (!pickerValue) return;
+
+      const date = new Date(pickerValue);
+      if (isNaN(date.getTime())) return;
+
+      // Format back to original text string: "7.15 PM · 14 Mar 2026"
+      let hours = date.getHours();
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const modifier = hours >= 12 ? 'PM' : 'AM';
+      
+      hours = hours % 12;
+      hours = hours ? hours : 12; // conversion of 0 to 12
+
+      const day = date.getDate();
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const monthStr = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+
+      const textValue = `${hours}.${minutes} ${modifier} · ${day} ${monthStr} ${year}`;
+      document.getElementById("inputData").value = textValue;
+      convertBulk();
+    }
+
+    function loadSample() {
+      document.getElementById("inputData").value = "7.15 PM · 14 Mar 2026";
+      convertBulk();
+    }
+
+    function toUnix(input, tzOffset) {
       try {
+        if (!input) return null;
+        
         const parts = input.split("·");
         if (parts.length !== 2) return null;
 
@@ -105,15 +576,20 @@
         const datePart = parts[1].trim();
 
         let [time, modifier] = timePart.split(" ");
-        let [hours, minutes] = time.split(".");
+        let [hoursStr, minutesStr] = time.split(".");
 
-        hours = parseInt(hours);
-        minutes = parseInt(minutes);
+        let hours = parseInt(hoursStr);
+        let minutes = parseInt(minutesStr);
+
+        if (isNaN(hours) || isNaN(minutes)) return null;
 
         if (modifier === "PM" && hours !== 12) hours += 12;
         if (modifier === "AM" && hours === 12) hours = 0;
 
-        const date = new Date(`${datePart} ${hours}:${minutes}:00 GMT+0700`);
+        // Parse date with dynamic timezone offset (default GMT+0700)
+        const date = new Date(`${datePart} ${hours}:${minutes}:00 ${tzOffset}`);
+
+        if (isNaN(date.getTime())) return null;
 
         return Math.floor(date.getTime() / 1000);
 
@@ -123,37 +599,175 @@
     }
 
     function generateFiles(unix) {
-      let result = [];
-      for (let i = 1; i <= 4; i++) {
-        let num = String(i).padStart(3, '0');
-        result.push(`${unix}-${num}.jpg`);
+      const fileCount = parseInt(document.getElementById("fileCount").value) || 4;
+      const startIndex = parseInt(document.getElementById("startIndex").value) || 1;
+      const padLength = parseInt(document.getElementById("padLength").value) || 3;
+      const prefix = document.getElementById("prefixText").value;
+      const separator = document.getElementById("separatorText").value;
+      
+      let ext = document.getElementById("fileExt").value;
+      if (ext === "custom") {
+        ext = document.getElementById("customExt").value;
       }
-      return result.join("\n");
+
+      let result = [];
+      for (let i = 0; i < fileCount; i++) {
+        let currentIndex = startIndex + i;
+        let num = String(currentIndex).padStart(padLength, '0');
+        result.push(`${prefix}${unix}${separator}${num}${ext}`);
+      }
+      return result;
     }
 
     function convertBulk() {
       const input = document.getElementById("inputData").value.trim();
+      const tzOffset = document.getElementById("timezoneOffset").value;
+      const fileCount = parseInt(document.getElementById("fileCount").value) || 4;
+      const startIndex = parseInt(document.getElementById("startIndex").value) || 1;
+      const padLength = parseInt(document.getElementById("padLength").value) || 3;
+      const prefix = document.getElementById("prefixText").value;
+      const separator = document.getElementById("separatorText").value;
+      
+      let ext = document.getElementById("fileExt").value;
+      const customExtGroup = document.getElementById("customExtGroup");
+      
+      if (ext === "custom") {
+        customExtGroup.style.display = "flex";
+        ext = document.getElementById("customExt").value;
+      } else {
+        customExtGroup.style.display = "none";
+      }
 
-      const unix = toUnix(input);
-      if (!unix) {
-        document.getElementById("outputData").value = "Format salah!";
+      const statusMsg = document.getElementById("statusMessage");
+      const listContainer = document.getElementById("filenameList");
+
+      if (!input) {
+        statusMsg.textContent = "";
+        listContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 30px; font-size:13px;">Belum ada nama file yang dibuat.</div>`;
+        document.getElementById("outputData").value = "";
+        updateScripts(null);
         return;
       }
 
-      document.getElementById("outputData").value = generateFiles(unix);
+      const unix = toUnix(input, tzOffset);
+      if (!unix) {
+        statusMsg.textContent = "Format Salah!";
+        statusMsg.className = "status-msg status-error";
+        listContainer.innerHTML = `<div style="text-align: center; color: var(--accent-red); padding: 30px; font-size:13px;">Format parsing tanggal salah. Periksa delimiter '·' atau format AM/PM Anda.</div>`;
+        document.getElementById("outputData").value = "";
+        updateScripts(null);
+        return;
+      }
+
+      statusMsg.textContent = `Unix: ${unix}`;
+      statusMsg.className = "status-msg status-success";
+
+      const filenames = generateFiles(unix);
+      document.getElementById("outputData").value = filenames.join("\n");
+
+      // Render items
+      let html = "";
+      filenames.forEach((name, idx) => {
+        html += `
+          <div class="file-item">
+            <span class="file-name">${escapeHtml(name)}</span>
+            <button class="copy-mini-btn" onclick="copyIndividual('${escapeHtml(name)}')">Copy</button>
+          </div>
+        `;
+      });
+      listContainer.innerHTML = html;
+
+      // Update scripts
+      updateScripts(unix, prefix, separator, ext, fileCount, startIndex, padLength);
     }
 
-    function copyResult() {
-      const output = document.getElementById("outputData");
-      output.select();
-      document.execCommand("copy");
-      alert("Disalin!");
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function updateScripts(unix, prefix, separator, ext, count, start, pad) {
+      const psBox = document.getElementById("psScript");
+      const bashBox = document.getElementById("bashScript");
+
+      if (!unix) {
+        psBox.textContent = "# Masukkan data valid terlebih dahulu";
+        bashBox.textContent = "# Masukkan data valid terlebih dahulu";
+        return;
+      }
+
+      // PowerShell rename script
+      // e.g. Rename files sequentially starting from target index
+      psBox.textContent = `$i = ${start}; Get-ChildItem -File | ForEach-Object { 
+  $num = ($i++).ToString().PadLeft(${pad}, '0')
+  Rename-Item $_.FullName -NewName "${prefix}${unix}${separator}$num${ext}" 
+}`;
+
+      // Bash rename script
+      bashBox.textContent = `i=${start}; for f in *${ext}; do
+  if [ -f "$f" ]; then
+    printf -v num "%0${pad}d" $i
+    mv "$f" "${prefix}${unix}${separator}\${num}${ext}"
+    ((i++))
+  fi
+done`;
+    }
+
+    async function copyIndividual(text) {
+      await navigator.clipboard.writeText(text);
+      showToast("Nama file disalin!");
+    }
+
+    async function copyScript(type) {
+      const text = type === 'ps' 
+        ? document.getElementById("psScript").textContent 
+        : document.getElementById("bashScript").textContent;
+      
+      if (text.startsWith("#")) return;
+      await navigator.clipboard.writeText(text);
+      showToast("Script disalin!");
+    }
+
+    async function copyResult() {
+      const output = document.getElementById("outputData").value;
+      if (!output) return;
+      
+      try {
+        await navigator.clipboard.writeText(output);
+        showToast("Semua nama file disalin!");
+      } catch (err) {
+        const textarea = document.getElementById("outputData");
+        textarea.style.display = "block";
+        textarea.select();
+        document.execCommand("copy");
+        textarea.style.display = "none";
+        showToast("Semua nama file disalin!");
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toastMessage");
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2000);
     }
 
     function clearAll() {
       document.getElementById("inputData").value = "";
-      document.getElementById("outputData").value = "";
+      if (document.getElementById("datePicker")) {
+        document.getElementById("datePicker").value = "";
+      }
+      convertBulk();
     }
+
+    // Run converter on load to show empty state
+    convertBulk();
   </script>
 
 </body>
