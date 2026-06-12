@@ -1,0 +1,247 @@
+[
+  {
+    "tahun": 2026,
+    "bulan": 0,
+    "is_draft": false,
+    "updated_at": "2026-06-12T11:38:50.000Z",
+    "data": {
+      "showroom": {
+        "following": "0",
+        "followers": "307000",
+        "streams": "2",
+        "views": "2000",
+        "comments": "7000"
+      },
+      "idn": {
+        "following": "50",
+        "followers": "157000",
+        "streams": "7",
+        "views": "46000",
+        "comments": "22000"
+      },
+      "x": {
+        "following": "90",
+        "followers": "183000",
+        "posts": "184"
+      },
+      "threads": {
+        "following": "57",
+        "followers": "80000",
+        "posts": "0"
+      },
+      "instagram": {
+        "following": "190",
+        "followers": "452000",
+        "posts": "3",
+        "stories": "27"
+      },
+      "tiktok": {
+        "following": "90",
+        "followers": "843000",
+        "posts": "6",
+        "stories": "2"
+      },
+      "pm": {
+        "texts": "345",
+        "audios": "92",
+        "images": "35"
+      }
+    }
+  },
+  {
+    "tahun": 2026,
+    "bulan": 1,
+    "is_draft": false,
+    "updated_at": "2026-06-12T11:40:00.000Z",
+    "data": {
+      "showroom": {
+        "following": "0",
+        "followers": "309000",
+        "streams": "0",
+        "views": "0",
+        "comments": "0"
+      },
+      "idn": {
+        "following": "50",
+        "followers": "163000",
+        "streams": "9",
+        "views": "94000",
+        "comments": "32000"
+      },
+      "x": {
+        "following": "91",
+        "followers": "186000",
+        "posts": "186"
+      },
+      "threads": {
+        "following": "57",
+        "followers": "81000",
+        "posts": "0"
+      },
+      "instagram": {
+        "following": "193",
+        "followers": "453000",
+        "posts": "3",
+        "stories": "26"
+      },
+      "tiktok": {
+        "following": "90",
+        "followers": "844000",
+        "posts": "5",
+        "stories": "4"
+      },
+      "pm": {
+        "texts": "295",
+        "audios": "51",
+        "images": "37"
+      }
+    }
+  },
+  {
+    "tahun": 2026,
+    "bulan": 2,
+    "is_draft": false,
+    "updated_at": "2026-06-12T11:42:00.000Z",
+    "data": {
+      "showroom": {
+        "following": "0",
+        "followers": "316000",
+        "streams": "0",
+        "views": "0",
+        "comments": "0"
+      },
+      "idn": {
+        "following": "50",
+        "followers": "167200",
+        "streams": "9",
+        "views": "94000",
+        "comments": "32000"
+      },
+      "x": {
+        "following": "92",
+        "followers": "189000",
+        "posts": "121"
+      },
+      "threads": {
+        "following": "57",
+        "followers": "81000",
+        "posts": "0"
+      },
+      "instagram": {
+        "following": "215",
+        "followers": "456000",
+        "posts": "3",
+        "stories": "37"
+      },
+      "tiktok": {
+        "following": "91",
+        "followers": "846000",
+        "posts": "4",
+        "stories": "3"
+      },
+      "pm": {
+        "texts": "226",
+        "audios": "52",
+        "images": "63"
+      }
+    }
+  },
+  {
+    "tahun": 2026,
+    "bulan": 3,
+    "is_draft": false,
+    "updated_at": "2026-06-12T11:43:00.000Z",
+    "data": {
+      "showroom": {
+        "following": "0",
+        "followers": "318000",
+        "streams": "0",
+        "views": "0",
+        "comments": "0"
+      },
+      "idn": {
+        "following": "50",
+        "followers": "168000",
+        "streams": "2",
+        "views": "11000",
+        "comments": "6000"
+      },
+      "x": {
+        "following": "92",
+        "followers": "192000",
+        "posts": "89"
+      },
+      "threads": {
+        "following": "57",
+        "followers": "81000",
+        "posts": "1"
+      },
+      "instagram": {
+        "following": "221",
+        "followers": "456000",
+        "posts": "3",
+        "stories": "52"
+      },
+      "tiktok": {
+        "following": "91",
+        "followers": "845000",
+        "posts": "5",
+        "stories": "1"
+      },
+      "pm": {
+        "texts": "236",
+        "audios": "21",
+        "images": "86"
+      }
+    }
+  },
+  {
+    "tahun": 2026,
+    "bulan": 4,
+    "is_draft": false,
+    "updated_at": "2026-06-12T10:58:00.000Z",
+    "data": {
+      "showroom": {
+        "following": "0",
+        "followers": "320149",
+        "streams": "1",
+        "views": "1000",
+        "comments": "5000"
+      },
+      "idn": {
+        "following": "49",
+        "followers": "173200",
+        "streams": "16",
+        "views": "114000",
+        "comments": "50000"
+      },
+      "x": {
+        "following": "93",
+        "followers": "195000",
+        "posts": "108"
+      },
+      "threads": {
+        "following": "57",
+        "followers": "82200",
+        "posts": "0"
+      },
+      "instagram": {
+        "following": "223",
+        "followers": "455000",
+        "posts": "1",
+        "stories": "33"
+      },
+      "tiktok": {
+        "following": "93",
+        "followers": "846800",
+        "posts": "8",
+        "stories": "1"
+      },
+      "pm": {
+        "texts": "273",
+        "audios": "19",
+        "images": "69"
+      }
+    }
+  }
+]
