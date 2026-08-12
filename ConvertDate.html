@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bulk Time Converter - Lanautica</title>
+  <title>Time Converter - Lanautica</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --bg-gradient: linear-gradient(135deg, #090d16, #111827, #1e293b);
@@ -335,7 +334,7 @@
       ← Hub Utama
     </a>
     <div class="page-title">
-      ⏱ Bulk Time Converter
+      ⏱ Time Converter
     </div>
     <div style="width: 80px;"></div> <!-- spacer -->
   </div>
@@ -349,8 +348,8 @@
       </div>
       <textarea id="inputData" rows="9" placeholder="Masukkan baris tanggal untuk dikonversi. Contoh:
 12.03 AM - 1 Mei 2026
-1.05 PM · 14 Mar 2026
-7:15 PM - 10 Dec 2026"></textarea>
+7/3/2026 0:00:00
+1.05 PM · 14 Mar 2026"></textarea>
 
       <div class="pane-title" style="margin-top: 25px;">
         <span>Hasil Konversi</span>
@@ -376,7 +375,7 @@
             <option value="db">YYYY-MM-DD HH:mm:ss</option>
             <option value="euro">DD/MM/YYYY HH:mm</option>
             <option value="iso">ISO 8601 (UTC)</option>
-            <option value="unix">Unix Timestamp (detik)</option>
+            <option value="unix" selected>Unix Timestamp (detik)</option>
             <option value="custom_tpl">Custom Template</option>
           </select>
         </div>
@@ -398,6 +397,14 @@
             <option value="+0900">GMT+09:00 (WIT)</option>
             <option value="+0000">GMT+00:00 (UTC)</option>
             <option value="-0500">GMT-05:00 (EST)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="inputOrderSelect">Format Input Tanggal (Standard)</label>
+          <select id="inputOrderSelect" onchange="convertBulk()">
+            <option value="DMY" selected>Tgl/Bln/Thn (DD/MM/YYYY)</option>
+            <option value="MDY">Bln/Tgl/Thn (MM/DD/YYYY)</option>
           </select>
         </div>
 
@@ -455,10 +462,10 @@
 
     function loadSample() {
       const sample = `12.03 AM - 1 Mei 2026
-1.05 PM · 14 Mar 2026
+7/3/2026 0:00:00
 07:15 PM - 10 Desember 2026
-10.22 AM · 8 Aug 2026
-invalid line here`;
+2026-03-07 00:00:00
+10.22 AM · 8 Aug 2026`;
       document.getElementById("inputData").value = sample;
       document.getElementById("linesCount").textContent = "5 Baris";
       convertBulk();
@@ -500,13 +507,76 @@ invalid line here`;
       }
     }
 
-    function convertLine(input, tzOffset) {
+    function parseStandardDate(input, order) {
+      const cleaned = input.trim();
+      
+      // Match YYYY-MM-DD HH:mm:ss or similar (DB / ISO format)
+      // e.g. 2026-03-07 00:00:00 or 2026/03/07 00:00
+      const dbRegex = /^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})(?:\s+(\d{1,2})[:.](\d{1,2})(?:[:.](\d{1,2}))?)?$/;
+      let match = cleaned.match(dbRegex);
+      if (match) {
+        return {
+          year: parseInt(match[1]),
+          month: parseInt(match[2]) - 1, // 0-indexed
+          day: parseInt(match[3]),
+          hours: match[4] ? parseInt(match[4]) : 0,
+          minutes: match[5] ? parseInt(match[5]) : 0,
+          seconds: match[6] ? parseInt(match[6]) : 0
+        };
+      }
+
+      // Match M/D/YYYY or D/M/YYYY with optional time
+      // e.g. 7/3/2026 0:00:00 or 07-03-2026 12:30
+      const stdRegex = /^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})(?:\s+(\d{1,2})[:.](\d{1,2})(?:[:.](\d{1,2}))?)?$/;
+      match = cleaned.match(stdRegex);
+      if (match) {
+        let first = parseInt(match[1]);
+        let second = parseInt(match[2]);
+        let year = parseInt(match[3]);
+        let hours = match[4] ? parseInt(match[4]) : 0;
+        let minutes = match[5] ? parseInt(match[5]) : 0;
+        let seconds = match[6] ? parseInt(match[6]) : 0;
+
+        let month, day;
+        if (order === "DMY") {
+          day = first;
+          month = second - 1;
+        } else {
+          month = first - 1;
+          day = second;
+        }
+
+        return { year, month, day, hours, minutes, seconds };
+      }
+
+      return null;
+    }
+
+    function convertLine(input, tzOffset, order = "DMY") {
       try {
         if (!input) return { success: false, value: "" };
 
-        // Support multiple delimiters: ·, -, @, at
+        // 1. Try standard date format first
+        const parsedStd = parseStandardDate(input, order);
+        if (parsedStd) {
+          let date;
+          const { year, month, day, hours, minutes, seconds } = parsedStd;
+          if (tzOffset === "local") {
+            date = new Date(year, month, day, hours, minutes, seconds);
+          } else {
+            const isoString = `${year}-${String(month+1).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}${tzOffset}`;
+            date = new Date(isoString);
+          }
+
+          if (isNaN(date.getTime())) {
+            return { success: false, error: "Hasil tanggal tidak valid" };
+          }
+          return { success: true, value: date };
+        }
+
+        // 2. Fall back to social format parsing
         const parts = input.split(/·|-|@|at/i);
-        if (parts.length !== 2) return { success: false, error: "Delimiter separator tidak ditemukan" };
+        if (parts.length !== 2) return { success: false, error: "Format tanggal tidak dikenali (gunakan delimiter atau standard date)" };
 
         const timePart = parts[0].trim();
         const datePart = parts[1].trim();
@@ -562,6 +632,7 @@ invalid line here`;
       const lines = input.split("\n");
       const formatType = document.getElementById("formatSelect").value;
       const tzOffset = document.getElementById("timezoneSelect").value;
+      const inputOrder = document.getElementById("inputOrderSelect").value;
 
       // Show/Hide Custom Template input
       const customTplGroup = document.getElementById("customTemplateGroup");
@@ -592,7 +663,7 @@ invalid line here`;
           return;
         }
 
-        const parseResult = convertLine(trimmed, tzOffset);
+        const parseResult = convertLine(trimmed, tzOffset, inputOrder);
         
         if (parseResult.success) {
           const formatted = formatCustom(parseResult.value, formatType);
